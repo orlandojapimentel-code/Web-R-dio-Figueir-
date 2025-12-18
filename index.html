@@ -8,13 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     
-    <!-- Configurações de Ícone (Favicon) -->
-    <link rel="icon" type="image/png" href="https://www.webradiofigueiro.pt/favicon.png">
-    <link rel="apple-touch-icon" href="https://www.webradiofigueiro.pt/favicon.png">
-    <link rel="shortcut icon" href="https://www.webradiofigueiro.pt/favicon.png">
+    <!-- Favicon links using the official URL with a cache-buster timestamp -->
+    <link rel="icon" type="image/png" href="https://www.webradiofigueiro.pt/favicon.png?v=2" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.webradiofigueiro.pt/favicon.png?v=2" sizes="16x16">
+    <link rel="apple-touch-icon" href="https://www.webradiofigueiro.pt/favicon.png?v=2">
+    <link rel="shortcut icon" href="https://www.webradiofigueiro.pt/favicon.png?v=2" type="image/x-icon">
     
     <script>
-        // Shim para process.env para evitar erros de runtime
         window.process = window.process || { env: { API_KEY: "" } };
     </script>
     <style>
@@ -44,6 +44,12 @@
         
         [id] {
             scroll-margin-top: 100px;
+        }
+
+        /* Prevent content jump when loading modules */
+        #root:empty {
+            min-height: 100vh;
+            background: #020617;
         }
     </style>
 <script type="importmap">

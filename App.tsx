@@ -19,14 +19,14 @@ import {
   CONTACT_EMAIL, 
   CONTACT_PHONE, 
   SITE_URL, 
-  BASE_VISITS 
+  BASE_VISITS,
+  LOGO_URL
 } from './constants';
 import { getGeminiNews } from './services/geminiService';
 import { NewsItem } from './types';
 
 const LogoImage: React.FC<{ className?: string }> = ({ className }) => {
   const [error, setError] = useState(false);
-  const logoUrl = "https://www.webradiofigueiro.pt/favicon.png";
 
   if (error) {
     return (
@@ -38,7 +38,7 @@ const LogoImage: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <img 
-      src={logoUrl} 
+      src={LOGO_URL} 
       alt="Logo WRF" 
       className={`${className} object-contain`} 
       onError={() => setError(true)}
