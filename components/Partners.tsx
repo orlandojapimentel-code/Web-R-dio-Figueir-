@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ExternalLink, Mail, ArrowRight } from 'lucide-react';
+import { ExternalLink, Mail, ArrowRight, Globe } from 'lucide-react';
 import { PARTNERS, CONTACT_EMAIL } from '../constants';
 
 const Partners: React.FC = () => {
@@ -8,17 +8,17 @@ const Partners: React.FC = () => {
     <section className="py-12">
       <div className="flex flex-col md:flex-row gap-8 items-stretch">
         {/* Promotion Area */}
-        <div className="flex-1 bg-indigo-600 rounded-3xl p-8 text-white relative overflow-hidden flex flex-col justify-between">
+        <div className="flex-1 bg-indigo-600 rounded-3xl p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-2xl shadow-indigo-500/20">
           <div className="relative z-10">
             <h3 className="text-3xl font-outfit font-extrabold mb-4">Seja um Parceiro</h3>
-            <p className="text-indigo-100 mb-8 max-w-sm">
+            <p className="text-indigo-100 mb-8 max-w-sm text-lg">
               Divulgue a sua marca na Web Rádio Figueiró e alcance milhares de ouvintes diários. Oferecemos pacotes personalizados.
             </p>
           </div>
-          <div className="flex gap-4 relative z-10">
+          <div className="flex flex-wrap gap-4 relative z-10">
             <a 
               href={`mailto:${CONTACT_EMAIL}`}
-              className="px-6 py-3 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-all flex items-center gap-2"
+              className="px-6 py-3 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-all flex items-center gap-2 shadow-lg"
             >
               <Mail size={18} /> Seja Parceiro
             </a>
@@ -34,23 +34,35 @@ const Partners: React.FC = () => {
         </div>
 
         {/* Existing Partners */}
-        <div className="md:w-1/3 bg-slate-900 rounded-3xl p-6 border border-white/5">
-          <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6">Parceiros Premium</h4>
-          <div className="space-y-4">
+        <div className="md:w-1/3 bg-slate-900 rounded-3xl p-6 border border-white/5 shadow-xl">
+          <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-6">Parceiros Premium</h4>
+          <div className="space-y-6">
             {PARTNERS.map((p, idx) => (
               <a 
                 key={idx} 
                 href={p.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group block p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-transparent hover:border-indigo-500/30"
+                className="group block p-5 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 hover:border-indigo-500/40 shadow-inner"
               >
-                <div className="aspect-video w-full rounded-xl bg-slate-800 mb-3 overflow-hidden">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="aspect-video w-full rounded-xl bg-slate-800 mb-4 overflow-hidden border border-white/5">
+                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-300 group-hover:text-white">{p.name}</span>
-                  <ExternalLink size={16} className="text-slate-500 group-hover:text-indigo-400" />
+                <div className="space-y-3">
+                  <div className="flex justify-between items-start gap-4">
+                    <span className="text-xl md:text-2xl font-outfit font-extrabold text-white leading-tight group-hover:text-indigo-400 transition-colors">
+                      {p.name}
+                    </span>
+                    <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all">
+                      <ExternalLink size={20} />
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs uppercase tracking-widest pt-2 border-t border-white/5 group-hover:gap-4 transition-all">
+                    <Globe size={14} />
+                    <span>Clique para visitar o site oficial</span>
+                    <ArrowRight size={14} className="ml-auto" />
+                  </div>
                 </div>
               </a>
             ))}
