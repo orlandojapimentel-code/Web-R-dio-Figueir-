@@ -1,7 +1,7 @@
 
 export const STREAM_URL = 'https://rs2.ptservidor.com/proxy/orlando?mp=/stream?type=.mp3';
 export const SITE_URL = 'https://www.webradiofigueiro.pt';
-export const LOGO_URL = 'https://www.webradiofigueiro.pt/favicon.png'; // Link oficial do seu servidor
+export const LOGO_URL = './logo.png'; // Agora aponta para o ficheiro que carregou no GitHub
 export const CONTACT_EMAIL = 'webradiofigueiro@gmail.com';
 export const CONTACT_PHONE = '+351 910270085';
 export const BASE_VISITS = 10150;

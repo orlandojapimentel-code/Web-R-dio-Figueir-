@@ -54,7 +54,7 @@ const RadioPlayer: React.FC = () => {
                   <img 
                     src={LOGO_URL} 
                     alt="Logo Web Rádio Figueiró" 
-                    className="w-full h-full object-contain p-2 bg-white" 
+                    className="w-full h-full object-contain p-2" 
                     onError={() => setImageError(true)}
                   />
                 ) : (
