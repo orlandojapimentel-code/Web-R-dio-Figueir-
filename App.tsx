@@ -31,34 +31,41 @@ const App: React.FC = () => {
 
   // Visit Counter Logic
   useEffect(() => {
-    const storedVisits = localStorage.getItem('figueiro_visits');
-    let current = storedVisits ? parseInt(storedVisits) : BASE_VISITS;
-    
-    // Check if this is a new session
-    const lastSession = sessionStorage.getItem('has_counted');
-    if (!lastSession) {
-      current += 1;
-      localStorage.setItem('figueiro_visits', current.toString());
-      sessionStorage.setItem('has_counted', 'true');
+    try {
+      const storedVisits = localStorage.getItem('figueiro_visits');
+      let current = storedVisits ? parseInt(storedVisits) : BASE_VISITS;
+      
+      const lastSession = sessionStorage.getItem('has_counted');
+      if (!lastSession) {
+        current += 1;
+        localStorage.setItem('figueiro_visits', current.toString());
+        sessionStorage.setItem('has_counted', 'true');
+      }
+      setVisitCount(current);
+    } catch (e) {
+      console.warn("Storage access failed", e);
     }
-    setVisitCount(current);
   }, []);
 
-  // Fetch News Logic
+  // Fetch News Logic with fallback to prevent UI crash
   useEffect(() => {
     const fetchNews = async () => {
-      const geminiData = await getGeminiNews();
-      if (geminiData) {
-        setNews(geminiData);
-      } else {
-        // Fallback static news
+      try {
+        const geminiData = await getGeminiNews();
+        if (geminiData && Array.isArray(geminiData)) {
+          setNews(geminiData);
+        } else {
+          throw new Error("Invalid news format");
+        }
+      } catch (error) {
         setNews([
           { id: '1', title: 'Novo Podcast!', content: 'Estreia de Prazeres Interrompidos já na próxima quarta.', date: 'Hoje' },
           { id: '2', title: 'Entrevista Exclusiva', content: 'Conversamos com DJ Durval sobre o futuro do Night Grooves.', date: 'Ontem' },
           { id: '3', title: 'Melhorias no Streaming', content: 'Agora com áudio HD para uma melhor experiência.', date: '2 dias atrás' }
         ]);
+      } finally {
+        setLoadingNews(false);
       }
-      setLoadingNews(false);
     };
     fetchNews();
   }, []);
@@ -66,7 +73,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#020617] text-slate-100 selection:bg-indigo-500/30">
       {/* Header / Navigation - Simplified */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/90 border-b border-white/5">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/90 border-b border-white/5 animate-slide-down">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
