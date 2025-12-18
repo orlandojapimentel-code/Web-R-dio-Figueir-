@@ -1,0 +1,7 @@
+{
+  "name": "Web Rádio Figueiró",
+  "description": "Uma plataforma moderna e interativa para a Web Rádio Figueiró, com player de áudio animado, programação em tempo real e integração com IA.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
