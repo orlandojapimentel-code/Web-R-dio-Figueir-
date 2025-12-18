@@ -24,12 +24,33 @@ import {
 import { getGeminiNews } from './services/geminiService';
 import { NewsItem } from './types';
 
+const LogoImage: React.FC<{ className?: string }> = ({ className }) => {
+  const [error, setError] = useState(false);
+  const logoUrl = "https://www.webradiofigueiro.pt/favicon.png";
+
+  if (error) {
+    return (
+      <div className={`${className} bg-indigo-600 flex items-center justify-center text-white`}>
+        <Radio size={24} />
+      </div>
+    );
+  }
+
+  return (
+    <img 
+      src={logoUrl} 
+      alt="Logo WRF" 
+      className={`${className} object-contain`} 
+      onError={() => setError(true)}
+    />
+  );
+};
+
 const App: React.FC = () => {
   const [visitCount, setVisitCount] = useState<number>(BASE_VISITS);
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loadingNews, setLoadingNews] = useState(true);
 
-  // Visit Counter Logic
   useEffect(() => {
     try {
       const storedVisits = localStorage.getItem('figueiro_visits');
@@ -47,7 +68,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Fetch News Logic with fallback to prevent UI crash
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -72,13 +92,11 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-100 selection:bg-indigo-500/30">
-      {/* Header / Navigation - Simplified */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/90 border-b border-white/5 animate-slide-down">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
-              <Radio className="text-white" size={24} />
+            <div className="w-12 h-12 rounded-full bg-slate-800 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform overflow-hidden border border-white/10">
+              <LogoImage className="w-full h-full" />
             </div>
             <div>
               <h1 className="text-xl font-outfit font-black tracking-tighter">FIGUEIRÓ</h1>
@@ -98,8 +116,6 @@ const App: React.FC = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-24">
-        
-        {/* Hero Section with Player */}
         <section id="emissao" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-8">
           <div className="lg:col-span-7 space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest shadow-inner">
@@ -124,7 +140,6 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Schedule Section */}
         <section id="programacao" className="space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -136,10 +151,8 @@ const App: React.FC = () => {
           <Schedule />
         </section>
 
-        {/* Partnerships & Promotion */}
         <Partners />
 
-        {/* News Section */}
         <section id="novidades" className="space-y-10">
           <div className="flex items-center justify-between">
             <h2 className="text-4xl font-outfit font-bold flex items-center gap-4">
@@ -168,13 +181,12 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Footer & Contacts */}
         <footer id="contactos" className="pt-20 pb-12 border-t border-white/5 mt-32">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
             <div className="col-span-1 md:col-span-1 space-y-8">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center">
-                  <Radio size={20} className="text-white" />
+                <div className="w-10 h-10 rounded-full bg-slate-800 shadow-lg overflow-hidden border border-white/10">
+                  <LogoImage className="w-full h-full" />
                 </div>
                 <h3 className="text-xl font-outfit font-black tracking-tighter">FIGUEIRÓ</h3>
               </div>

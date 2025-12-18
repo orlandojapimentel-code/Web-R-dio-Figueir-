@@ -7,9 +7,14 @@
     <title>Web Rádio Figueiró | Sente a Música</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Configurações de Ícone (Favicon) -->
     <link rel="icon" type="image/png" href="https://www.webradiofigueiro.pt/favicon.png">
+    <link rel="apple-touch-icon" href="https://www.webradiofigueiro.pt/favicon.png">
+    <link rel="shortcut icon" href="https://www.webradiofigueiro.pt/favicon.png">
+    
     <script>
-        // Shim for process.env to prevent crashes in browser environments
+        // Shim para process.env para evitar erros de runtime
         window.process = window.process || { env: { API_KEY: "" } };
     </script>
     <style>
@@ -21,9 +26,8 @@
         }
         .font-outfit { font-family: 'Outfit', sans-serif; }
         
-        /* Custom animations */
         @keyframes pulse-slow {
-            0%, 100! { opacity: 1; transform: scale(1); }
+            0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.05); }
         }
         .animate-pulse-slow { animation: pulse-slow 3s infinite ease-in-out; }
@@ -34,12 +38,10 @@
         }
         .animate-slide-down { animation: slide-down 0.4s ease-out forwards; }
 
-        /* Ensure smooth scroll and offset for sticky header */
         html {
             scroll-behavior: smooth;
         }
         
-        /* Global target offset for all IDs */
         [id] {
             scroll-margin-top: 100px;
         }
@@ -58,7 +60,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- Explicitly load the entry point module -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>
