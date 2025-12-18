@@ -1,24 +1,44 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, Music, Radio as RadioIcon } from 'lucide-react';
+import { Play, Pause, Volume2, Music, Radio as RadioIcon, AlertCircle } from 'lucide-react';
 import { STREAM_URL, LOGO_URL } from '../constants';
 
 const RadioPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
+  const [error, setError] = useState<string | null>(null);
   const [metadata, setMetadata] = useState({ title: 'Sintonizando...', artist: 'Web Rádio Figueiró' });
   const [imageError, setImageError] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const togglePlay = () => {
     if (!audioRef.current) return;
+
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.load();
-      audioRef.current.play().catch(e => console.error("Erro ao reproduzir:", e));
+      setError(null);
+      // Forçar o recarregamento do SRC para evitar cache
+      const freshUrl = STREAM_URL.includes('?') 
+        ? `${STREAM_URL}&cb=${Date.now()}` 
+        : `${STREAM_URL}?cb=${Date.now()}`;
+      
+      audioRef.current.src = freshUrl;
+      
+      const playPromise = audioRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(err => {
+            console.error("Erro na reprodução:", err);
+            setError("Erro ao carregar sinal.");
+            setIsPlaying(false);
+          });
+      }
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +48,9 @@ const RadioPlayer: React.FC = () => {
   };
 
   useEffect(() => {
+    if (audioRef.current) {
+        audioRef.current.volume = volume;
+    }
     const interval = setInterval(() => {
       const tracks = [
         { title: 'Grandes Êxitos', artist: 'Artistas Nacionais' },
@@ -38,7 +61,7 @@ const RadioPlayer: React.FC = () => {
       if (isPlaying) setMetadata(randomTrack);
     }, 15000);
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, volume]);
 
   return (
     <div className="player-container relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-indigo-900 via-slate-950 to-black p-8 md:p-10 shadow-2xl border border-white/10">
@@ -66,7 +89,7 @@ const RadioPlayer: React.FC = () => {
                 <div className={`absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/10 transition-all ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
                     <button 
                         onClick={togglePlay}
-                        className="text-white p-4 rounded-full bg-indigo-600/40 backdrop-blur-md border border-white/20 transition-transform active:scale-95"
+                        className="text-white p-4 rounded-full bg-indigo-600/40 backdrop-blur-md border border-white/20 transition-transform active:scale-95 z-20"
                     >
                         {isPlaying ? <Pause size={48} /> : <Play size={48} fill="currentColor" className="ml-1" />}
                     </button>
@@ -96,12 +119,22 @@ const RadioPlayer: React.FC = () => {
                 {isPlaying ? 'No Ar Agora' : 'Em Espera'}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-outfit font-bold truncate leading-tight pt-2">
-                {metadata.title}
-            </h2>
-            <p className="text-slate-400 font-medium flex items-center justify-center md:justify-start gap-2">
-              <Music size={16} className="text-indigo-500" /> {metadata.artist}
-            </p>
+            
+            {error ? (
+              <div className="flex items-center justify-center md:justify-start gap-2 text-red-400 py-2">
+                <AlertCircle size={16} />
+                <span className="text-xs font-bold uppercase">{error}</span>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-2xl md:text-3xl font-outfit font-bold truncate leading-tight pt-2">
+                    {metadata.title}
+                </h2>
+                <p className="text-slate-400 font-medium flex items-center justify-center md:justify-start gap-2">
+                  <Music size={16} className="text-indigo-500" /> {metadata.artist}
+                </p>
+              </>
+            )}
           </div>
 
           <div className="flex items-center justify-center md:justify-start gap-4 pt-2">
@@ -118,13 +151,14 @@ const RadioPlayer: React.FC = () => {
           </div>
         </div>
       </div>
-
       <audio 
         ref={audioRef} 
-        src={STREAM_URL} 
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        crossOrigin="anonymous"
+        onError={() => {
+          setError("Falha no streaming.");
+          setIsPlaying(false);
+        }}
       />
     </div>
   );
