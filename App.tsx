@@ -9,7 +9,10 @@ import {
   Radio, 
   Newspaper,
   TrendingUp,
-  Globe
+  Globe,
+  Info,
+  Activity,
+  Zap
 } from 'lucide-react';
 import RadioPlayer from './components/RadioPlayer';
 import Schedule from './components/Schedule';
@@ -105,7 +108,7 @@ const App: React.FC = () => {
           </a>
           
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-slate-900/80 px-4 py-1.5 rounded-full border border-white/10">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-900/80 px-4 py-1.5 rounded-full border border-white/10">
               <TrendingUp size={14} className="text-green-400" />
               <span className="text-xs font-mono font-bold text-slate-300">
                 {visitCount.toLocaleString()} <span className="text-[10px] text-slate-500 ml-1 tracking-wider">VISITAS</span>
@@ -116,6 +119,7 @@ const App: React.FC = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-24">
+        {/* Hero & Player Section */}
         <section id="emissao" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-8">
           <div className="lg:col-span-7 space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest shadow-inner">
@@ -140,6 +144,59 @@ const App: React.FC = () => {
           </div>
         </section>
 
+        {/* Radio Description & Tech Info */}
+        <section id="sobre" className="space-y-10">
+          <div className="bg-slate-900/30 border border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                <Info size={180} />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start relative z-10">
+              <div className="space-y-6">
+                <h3 className="text-3xl font-outfit font-bold flex items-center gap-3">
+                  <Info className="text-indigo-400" /> Sobre a Web Rádio Figueiró
+                </h3>
+                <div className="space-y-4 text-slate-400 text-lg leading-relaxed">
+                  <p>
+                    Localizada no coração de Portugal, a <span className="text-indigo-300 font-semibold">Web Rádio Figueiró</span> é um projeto apaixonado que visa levar entretenimento, cultura e a melhor seleção musical a todos os cantos do mundo através da internet.
+                  </p>
+                  <p>
+                    A nossa missão é ser a ponte que liga os ouvintes às suas memórias mais queridas, através de clássicos intemporais, e às novas tendências que marcam o panorama musical atual. Somos mais do que uma rádio, somos uma comunidade.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-indigo-500/5 rounded-3xl p-8 border border-indigo-500/10 space-y-6">
+                <h4 className="text-xl font-bold flex items-center gap-2">
+                  <Activity className="text-indigo-400" /> Informação das Emissões
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="p-4 bg-slate-900/50 rounded-2xl border border-white/5">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Qualidade de Áudio</p>
+                    <p className="text-lg font-bold text-indigo-400">128kbps Stereo</p>
+                  </div>
+                  <div className="p-4 bg-slate-900/50 rounded-2xl border border-white/5">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Tecnologia</p>
+                    <p className="text-lg font-bold text-indigo-400">Icecast v2.4</p>
+                  </div>
+                  <div className="p-4 bg-slate-900/50 rounded-2xl border border-white/5">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Fuso Horário</p>
+                    <p className="text-lg font-bold text-indigo-400">Lisboa (GMT+0)</p>
+                  </div>
+                  <div className="p-4 bg-slate-900/50 rounded-2xl border border-white/5">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Alcance</p>
+                    <p className="text-lg font-bold text-indigo-400">Global / Web</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 bg-indigo-500/10 rounded-2xl border border-indigo-500/20">
+                  <Zap size={20} className="text-indigo-400 animate-pulse" />
+                  <p className="text-sm font-medium text-indigo-300">Emissão 24/7 disponível em todos os dispositivos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Schedule Section */}
         <section id="programacao" className="space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -153,6 +210,7 @@ const App: React.FC = () => {
 
         <Partners />
 
+        {/* News Section */}
         <section id="novidades" className="space-y-10">
           <div className="flex items-center justify-between">
             <h2 className="text-4xl font-outfit font-bold flex items-center gap-4">
@@ -181,6 +239,7 @@ const App: React.FC = () => {
           </div>
         </section>
 
+        {/* Footer */}
         <footer id="contactos" className="pt-20 pb-12 border-t border-white/5 mt-32">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
             <div className="col-span-1 md:col-span-1 space-y-8">
@@ -204,9 +263,9 @@ const App: React.FC = () => {
               <h4 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Navegação</h4>
               <ul className="space-y-4 text-sm font-medium text-slate-500">
                 <li><a href="#emissao" className="hover:text-indigo-400 transition-colors">Directo Online</a></li>
+                <li><a href="#sobre" className="hover:text-indigo-400 transition-colors">Sobre a Rádio</a></li>
                 <li><a href="#programacao" className="hover:text-indigo-400 transition-colors">Grelha de Programas</a></li>
                 <li><a href="#novidades" className="hover:text-indigo-400 transition-colors">Blog & Novidades</a></li>
-                <li><a href={SITE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-400 transition-colors flex items-center gap-2"><Globe size={16} /> Portal Figueiró</a></li>
               </ul>
             </div>
 
@@ -240,7 +299,7 @@ const App: React.FC = () => {
             <div className="flex items-center gap-6">
               <span className="text-indigo-500/50">Sente a Música.</span>
               <span className="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-              <span className="hover:text-slate-400 transition-colors cursor-default">Desenvolvido com IA em Portugal</span>
+              <span className="hover:text-slate-400 transition-colors cursor-default">Desenvolvido em Portugal</span>
             </div>
           </div>
         </footer>
